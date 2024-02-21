@@ -1,0 +1,20 @@
+import cv2 as cv
+import matplotlib.pyplot as plt
+import numpy as np
+img = cv.imread('C:\Image_Processing\Video_01\spider.png', cv.IMREAD_COLOR)
+hsv_img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+hue_channel, saturation_channel, value_channel = cv.split(hsv_img)
+plt.figure(figsize=(15, 5))
+plt.subplot(1, 3, 1)
+plt.imshow(hue_channel, cmap='hsv', vmin=0, vmax=179)
+plt.title('Hue')
+plt.axis('off')
+plt.subplot(1, 3, 2)
+plt.imshow(saturation_channel, cmap='hsv', vmin=0, vmax=255)
+plt.title('Saturation')
+plt.axis('off')
+plt.subplot(1, 3, 3)
+plt.imshow(value_channel, cmap='hsv', vmin=0, vmax=255)
+plt.title('Value')
+plt.axis('off')
+plt.show()

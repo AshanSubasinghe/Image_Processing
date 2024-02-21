@@ -1,0 +1,27 @@
+import cv2 as cv
+import numpy as np
+import matplotlib.pyplot as plt
+im = cv.imread('C:\Image_Processing_2\daisy.jpg')
+assert im is not None
+mask = np.zeros(im.shape[:2], np.uint8)
+rect = (50, 150, 539, 400)
+bgd_model = np.zeros((1, 65), np.float64)
+fgd_model = np.zeros((1, 65), np.float64)
+cv.grabCut(im, mask, rect, bgd_model, fgd_model, 5, cv.GC_INIT_WITH_RECT)
+mask2 = np.where((mask == 2) | (mask == 0), 0, 1).astype('uint8')
+foreground = cv.bitwise_and(im, im, mask=mask2)
+background = cv.bitwise_and(im, im, mask=cv.bitwise_not(mask2))
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 3, 1)
+plt.imshow(mask2, cmap='gray')
+plt.title('Segmentation Mask')
+plt.axis('off')
+plt.subplot(1, 3, 2)
+plt.imshow(cv.cvtColor(foreground, cv.COLOR_BGR2RGB))
+plt.title('Foreground Image')
+plt.axis('off')
+plt.subplot(1, 3, 3)
+plt.imshow(cv.cvtColor(background, cv.COLOR_BGR2RGB))
+plt.title('Background Image')
+plt.axis('off')
+plt.show()
